@@ -8,7 +8,6 @@
    cheerio -- helps with parsing HTML
 --------------------------------------------------------------------------------*/
 const puppeteer = require("puppeteer");
-const cheerio = require("cheerio");
 
 let browser;
 
@@ -213,15 +212,116 @@ const Test_repeatedShortenURL = async () => {
   });
 };
 
+const Test_customURL = async () => {
+  const page = await browser.newPage(); // open new page
+  // Get to the webapp page
+  await page.goto("http://localhost:3000/custom");
+
+  await page.type("#input-shortenURL", "https://www.youtube.com/");
+  await page.type("#keyword", "abc");
+  await page.click("button.submit");
+  await page.waitForTimeout(3000);
+  await page.waitForSelector(".shortenUrl");
+
+  let customURLelement = await page.$(".shortenUrl");
+  let customURL = await page.evaluate((el) => el.textContent, customURLelement);
+
+  return new Promise((resolve, reject) => {
+    if (customURL === "http://localhost:3000/BKD/abc") {
+      resolve(0);
+      console.log("Test_8 passed");
+    } else reject(new Error(1));
+  });
+};
+
+const Test_repeatedKeyword = async () => {
+  const page = await browser.newPage(); // open new page
+  // Get to the webapp page
+  await page.goto("http://localhost:3000/custom");
+
+  await page.type("#input-shortenURL", "https://twitter.com/home");
+  await page.type("#keyword", "abc");
+  await page.click("button.submit");
+  await page.waitForTimeout(3000);
+  await page.waitForSelector(".shortenUrl");
+
+  let customURLelement = await page.$(".shortenUrl");
+  let invalidURL = await page.evaluate(
+    (el) => el.textContent,
+    customURLelement
+  );
+
+  return new Promise((resolve, reject) => {
+    if (invalidURL === "這個關鍵字已被使用，請換一個關鍵字") {
+      resolve(0);
+      console.log("Test_9 passed");
+    } else reject(new Error(1));
+  });
+};
+
+const Test_emptyKeyword = async () => {
+  const page = await browser.newPage(); // open new page
+  // Get to the webapp page
+  await page.goto("http://localhost:3000/custom");
+
+  await page.type("#input-shortenURL", "");
+  await page.type("#keyword", "");
+  await page.click("button.submit");
+  await page.waitForTimeout(3000);
+  await page.waitForSelector(".shortenUrl");
+
+  let customURLelement = await page.$(".shortenUrl");
+  let invalidURL = await page.evaluate(
+    (el) => el.textContent,
+    customURLelement
+  );
+
+  return new Promise((resolve, reject) => {
+    if (invalidURL === "輸入不能為空，且必須是合法網址") {
+      resolve(0);
+      console.log("Test_10 passed");
+    } else reject(new Error(1));
+  });
+};
+
+const Test_InvalidKeywordUrl = async () => {
+  const page = await browser.newPage(); // open new page
+  // Get to the webapp page
+  await page.goto("http://localhost:3000/custom");
+
+  await page.type("#input-shortenURL", "abc");
+  await page.type("#keyword", "abc");
+  await page.click("button.submit");
+  await page.waitForTimeout(3000);
+  await page.waitForSelector(".shortenUrl");
+
+  let customURLelement = await page.$(".shortenUrl");
+  let invalidURL = await page.evaluate(
+    (el) => el.textContent,
+    customURLelement
+  );
+
+  return new Promise((resolve, reject) => {
+    if (invalidURL === "輸入不能為空，且必須是合法網址") {
+      resolve(0);
+      console.log("Test_11 passed");
+    } else reject(new Error(1));
+  });
+};
+
 const TestAll = async () => {
   await openBrowser();
-  //   await Test_PrimaryShortenButton();
-  //   await Test_PrimaryQRButton();
-  //   await Test_NavBarButton();
-  //   await Test_shortenURL();
-  //   await Test_emptyShortenURL();
-  //   await Test_invalidShortenURL();
+  await Test_PrimaryShortenButton();
+  await Test_PrimaryQRButton();
+  await Test_NavBarButton();
+  await Test_shortenURL();
+  await Test_emptyShortenURL();
+  await Test_invalidShortenURL();
   await Test_repeatedShortenURL();
+  await Test_customURL();
+  await Test_repeatedKeyword();
+  await Test_emptyKeyword();
+  await Test_InvalidKeywordUrl();
   await browser.close();
 };
 
