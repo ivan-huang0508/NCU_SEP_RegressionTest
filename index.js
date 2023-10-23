@@ -31,7 +31,6 @@ const Test_PrimaryShortenButton = async () => {
   return new Promise((resolve, reject) => {
     if (url === "http://localhost:3000/shorten") {
       resolve(0);
-      console.log("Test_1 passed");
     } else reject(new Error(1));
   });
 };
@@ -50,7 +49,6 @@ const Test_PrimaryQRButton = async () => {
   return new Promise((resolve, reject) => {
     if (url === "http://localhost:3000/genqr") {
       resolve(0);
-      console.log("Test_2 passed");
     } else reject(new Error(1));
   });
 };
@@ -101,7 +99,6 @@ const Test_NavBarButton = async () => {
       whatsupUrl === "http://localhost:3000/"
     ) {
       resolve(0);
-      console.log("Test_3 passed");
     } else reject(new Error(1));
   });
 };
@@ -122,7 +119,6 @@ const Test_shortenURL = async () => {
   return new Promise((resolve, reject) => {
     if (URLvalue === "http://localhost:3000/BKD/CkI3I") {
       resolve(0);
-      console.log("Test_4 passed");
     } else reject(new Error(1));
   });
 };
@@ -146,7 +142,6 @@ const Test_emptyShortenURL = async () => {
   return new Promise((resolve, reject) => {
     if (emptyReturn === "輸入不能為空，且必須是合法網址") {
       resolve(0);
-      console.log("Test_5 passed");
     } else reject(new Error(1));
   });
 };
@@ -170,7 +165,6 @@ const Test_invalidShortenURL = async () => {
   return new Promise((resolve, reject) => {
     if (invalidReturn === "輸入不能為空，且必須是合法網址") {
       resolve(0);
-      console.log("Test_6 passed");
     } else reject(new Error(1));
   });
 };
@@ -207,7 +201,6 @@ const Test_repeatedShortenURL = async () => {
   return new Promise((resolve, reject) => {
     if (repeatedURL === shortenURL) {
       resolve(0);
-      console.log("Test_7 passed");
     } else reject(new Error(1));
   });
 };
@@ -229,7 +222,6 @@ const Test_customURL = async () => {
   return new Promise((resolve, reject) => {
     if (customURL === "http://localhost:3000/BKD/abc") {
       resolve(0);
-      console.log("Test_8 passed");
     } else reject(new Error(1));
   });
 };
@@ -254,7 +246,6 @@ const Test_repeatedKeyword = async () => {
   return new Promise((resolve, reject) => {
     if (invalidURL === "這個關鍵字已被使用，請換一個關鍵字") {
       resolve(0);
-      console.log("Test_9 passed");
     } else reject(new Error(1));
   });
 };
@@ -279,7 +270,6 @@ const Test_emptyKeyword = async () => {
   return new Promise((resolve, reject) => {
     if (invalidURL === "輸入不能為空，且必須是合法網址") {
       resolve(0);
-      console.log("Test_10 passed");
     } else reject(new Error(1));
   });
 };
@@ -304,7 +294,6 @@ const Test_InvalidKeywordUrl = async () => {
   return new Promise((resolve, reject) => {
     if (invalidURL === "輸入不能為空，且必須是合法網址") {
       resolve(0);
-      console.log("Test_11 passed");
     } else reject(new Error(1));
   });
 };
@@ -323,6 +312,8 @@ const TestAll = async () => {
   await Test_emptyKeyword();
   await Test_InvalidKeywordUrl();
   await browser.close();
+  console.log(0);
+  return 0;
 };
 
 TestAll();

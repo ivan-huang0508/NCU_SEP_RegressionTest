@@ -4,7 +4,7 @@
   "description": "regression_test for my web app in NCU SoftwareEngineeringPractice",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "author": "kypkk",
   "license": "ISC",
